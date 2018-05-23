@@ -58,8 +58,8 @@
             <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12">
               <div class="select">
                 <select (change)="setRightWithGroup($event)" id="groupId" name="groupId" [(ngModel)]="groupId">
-                <option *ngFor="let g of groups" [value]="g.group_id">{{ g.group_name }}</option>
-              </select>
+                  <option *ngFor="let g of groups" [value]="g.group_id">{{ g.group_name }}</option>
+                </select>
               </div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -68,8 +68,8 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <div class="select">
                 <select id="warehouseId" name="warehouseId" [(ngModel)]="warehouseId">
-                <option *ngFor="let w of warehouses" [value]="w.warehouse_id">{{ w.warehouse_name }}</option>
-              </select>
+                  <option *ngFor="let w of warehouses" [value]="w.warehouse_id">{{ w.warehouse_name }}</option>
+                </select>
               </div>
             </div>
           </div>
@@ -86,20 +86,93 @@
           </div>
           <div class="form-group row">
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <label class="required">สิทธิ์ประเภทเวชภัณฑ์</label>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+              <div class="checkbox-inline">
+                <clr-checkbox style="padding-left: 5px;" *ngFor="let item of productGroups" [clrChecked]="true" [clrInline]="true">
+                  {{item.generic_type_name}}
+                </clr-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
               <label for="aForm_4" class="required">สิทธิ์การใช้งาน</label>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
               <div class="row">
-                <div class="col-md-6">
-                  <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedRights">
-                    <clr-dg-column>รายการสิทธิ์</clr-dg-column>
-                    <clr-dg-row *clrDgItems="let r of rights" [clrDgItem]="r">
-                      <clr-dg-cell>{{r.right_name}} (
-                        <code>{{r.right_code}}</code>)</clr-dg-cell>
-                    </clr-dg-row>
-                  </clr-datagrid>
+                <div class="col-md-12">
+                  <clr-tabs>
+                    <clr-tab>
+                      <button clrTabLink id="link1">Purchasing</button>
+                      <clr-tab-content id="content1" *clrIfActive>
+                        <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedRights">
+                          <clr-dg-column>รายการสิทธิ์</clr-dg-column>
+                          <clr-dg-row *clrDgItems="let r of rightsPO" [clrDgItem]="r">
+                            <clr-dg-cell>{{r.right_name}} ( {{r.right_code}} )</clr-dg-cell>
+                          </clr-dg-row>
+                        </clr-datagrid>
+                      </clr-tab-content>
+                    </clr-tab>
+                    <clr-tab>
+                      <button clrTabLink>Planning</button>
+                      <clr-tab-content>
+                        <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedRights">
+                          <clr-dg-column>รายการสิทธิ์</clr-dg-column>
+                          <clr-dg-row *clrDgItems="let r of rightsBM" [clrDgItem]="r">
+                            <clr-dg-cell>{{r.right_name}} ( {{r.right_code}} )</clr-dg-cell>
+                          </clr-dg-row>
+                        </clr-datagrid>
+                      </clr-tab-content>
+                    </clr-tab>
+                    <clr-tab>
+                      <button clrTabLink>Inventory</button>
+                      <clr-tab-content>
+                        <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedRights">
+                          <clr-dg-column>รายการสิทธิ์</clr-dg-column>
+                          <clr-dg-row *clrDgItems="let r of rightsWM" [clrDgItem]="r">
+                            <clr-dg-cell>{{r.right_name}} ( {{r.right_code}} )</clr-dg-cell>
+                          </clr-dg-row>
+                        </clr-datagrid>
+                      </clr-tab-content>
+                    </clr-tab>
+                    <clr-tab>
+                      <button clrTabLink>Materials</button>
+                      <clr-tab-content>
+                        <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedRights">
+                          <clr-dg-column>รายการสิทธิ์</clr-dg-column>
+                          <clr-dg-row *clrDgItems="let r of rightsMM" [clrDgItem]="r">
+                            <clr-dg-cell>{{r.right_name}} ( {{r.right_code}} )</clr-dg-cell>
+                          </clr-dg-row>
+                        </clr-datagrid>
+                      </clr-tab-content>
+                    </clr-tab>
+                    <clr-tab>
+                      <button clrTabLink>Contracts</button>
+                      <clr-tab-content>
+                        <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedRights">
+                          <clr-dg-column>รายการสิทธิ์</clr-dg-column>
+                          <clr-dg-row *clrDgItems="let r of rightsCM" [clrDgItem]="r">
+                            <clr-dg-cell>{{r.right_name}} ( {{r.right_code}} )</clr-dg-cell>
+                          </clr-dg-row>
+                        </clr-datagrid>
+                      </clr-tab-content>
+                    </clr-tab>
+                    <clr-tab>
+                      <button clrTabLink>Management</button>
+                      <clr-tab-content>
+                        <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedRights">
+                          <clr-dg-column>รายการสิทธิ์</clr-dg-column>
+                          <clr-dg-row *clrDgItems="let r of rightsUM" [clrDgItem]="r">
+                            <clr-dg-cell>{{r.right_name}} ( {{r.right_code}} )</clr-dg-cell>
+                          </clr-dg-row>
+                        </clr-datagrid>
+                      </clr-tab-content>
+                    </clr-tab>
+                  </clr-tabs>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <clr-datagrid [style.height.px]="300" [(clrDgSelected)]="selectedProductGroups">
                     <clr-dg-column>รายการประเภทของเวชภัณฑ์</clr-dg-column>
                     <clr-dg-row *clrDgItems="let pg of productGroups" [clrDgItem]="pg">
@@ -108,11 +181,11 @@
                       </clr-dg-cell>
                     </clr-dg-row>
                   </clr-datagrid>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
-<!--         
+          <!--         
           <div class="form-group row">
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
               <label for="aForm_4" class="required">ประเภทสินค้าที่ดูแล (เฉพาะสิทธิ์ Admin เท่านั้น)</label>
@@ -137,23 +210,23 @@
   <h3 class="modal-title">เลือกเจ้าหน้าที่</h3>
   <div class="modal-body">
     <clr-datagrid [clrDgLoading]="loadingPeople" [(clrDgSingleSelected)]="selectedPeople">
-  <clr-dg-column [style.width.%]="10">คำนำหน้า</clr-dg-column>
-  <clr-dg-column [style.width.%]="25" [clrDgField]="'fname'">ชื่อ</clr-dg-column>
-  <clr-dg-column [style.width.%]="25" [clrDgField]="'lname'">สกุล</clr-dg-column>
-  <clr-dg-column [style.width.%]="35" [clrDgField]="'position'">ตำแหน่ง</clr-dg-column>
-  <clr-dg-placeholder>ไม่พบชื่อเจ้าหน้าที่!</clr-dg-placeholder>
-  <clr-dg-row *clrDgItems="let p of peoples" [clrDgItem]="p">
-    <clr-dg-cell>{{p.title_name}}</clr-dg-cell>
-    <clr-dg-cell>{{p.fname}}</clr-dg-cell>
-    <clr-dg-cell>{{p.lname}}</clr-dg-cell>
-    <clr-dg-cell>{{p.position_name}}</clr-dg-cell>
-  </clr-dg-row>
+      <clr-dg-column [style.width.%]="10">คำนำหน้า</clr-dg-column>
+      <clr-dg-column [style.width.%]="25" [clrDgField]="'fname'">ชื่อ</clr-dg-column>
+      <clr-dg-column [style.width.%]="25" [clrDgField]="'lname'">สกุล</clr-dg-column>
+      <clr-dg-column [style.width.%]="35" [clrDgField]="'position'">ตำแหน่ง</clr-dg-column>
+      <clr-dg-placeholder>ไม่พบชื่อเจ้าหน้าที่!</clr-dg-placeholder>
+      <clr-dg-row *clrDgItems="let p of peoples" [clrDgItem]="p">
+        <clr-dg-cell>{{p.title_name}}</clr-dg-cell>
+        <clr-dg-cell>{{p.fname}}</clr-dg-cell>
+        <clr-dg-cell>{{p.lname}}</clr-dg-cell>
+        <clr-dg-cell>{{p.position_name}}</clr-dg-cell>
+      </clr-dg-row>
 
-  <clr-dg-footer>
-    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-    <clr-dg-pagination #pagination [clrDgPageSize]="8"></clr-dg-pagination>
-  </clr-dg-footer>
-</clr-datagrid>
+      <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+        <clr-dg-pagination #pagination [clrDgPageSize]="8"></clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
 
   </div>
   <div class="modal-footer">

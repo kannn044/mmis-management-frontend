@@ -40,6 +40,12 @@ export class UserEditComponent implements OnInit {
   selectedRights: any = [];
   warehouses: any = [];
   rights: any = [];
+  rightsPO: any = [];
+  rightsWM: any = [];
+  rightsMM: any = [];
+  rightsUM: any = [];
+  rightsCM: any = [];
+  rightsBM: any = [];
   groups: any = [];
   peoples: any = [];
 
@@ -110,6 +116,14 @@ export class UserEditComponent implements OnInit {
       })
       .then((result: any) => {
         this.rights = result.rows;
+        for (let v of this.rights) {
+          if (v.right_module === 'PO') this.rightsPO.push(v);
+          if (v.right_module === 'WM') this.rightsWM.push(v);
+          if (v.right_module === 'MM') this.rightsMM.push(v);
+          if (v.right_module === 'BM') this.rightsBM.push(v);
+          if (v.right_module === 'CM') this.rightsCM.push(v);
+          if (v.right_module === 'UM') this.rightsUM.push(v);
+        }
         return this.productGroupService.list();
       })
       .then((result: any) => {
@@ -149,36 +163,36 @@ export class UserEditComponent implements OnInit {
               const _rights = result.detail.access_right.split(',');
 
               for (const v of this.rights) {
-                  for (const x of _rights) {
-                    if (x === v.right_code) {
-                      this.selectedRights.push(v);
-                    }
-                  }
-                }
-
-            }
-
-              if (result.detail.generic_type_id) {
-                const _pg = result.detail.generic_type_id.split(',');
-                // this.productGroups.forEach(v => {
-                for (const v of this.productGroups) {
-                  for (const x of _pg) {
-                    if (+x === +v.generic_type_id) {
-                      this.selectedProductGroups.push(v);
-                    }
+                for (const x of _rights) {
+                  if (x === v.right_code) {
+                    this.selectedRights.push(v);
                   }
                 }
               }
 
-            } else {
-              this.alertService.error('ไม่พบรายการที่ต้องการแก้ไข');
-              this.router.navigate(['/admin/users']);
             }
+
+            if (result.detail.generic_type_id) {
+              const _pg = result.detail.generic_type_id.split(',');
+              // this.productGroups.forEach(v => {
+              for (const v of this.productGroups) {
+                for (const x of _pg) {
+                  if (+x === +v.generic_type_id) {
+                    this.selectedProductGroups.push(v);
+                  }
+                }
+              }
+            }
+
           } else {
-            this.alertService.error();
+            this.alertService.error('ไม่พบรายการที่ต้องการแก้ไข');
             this.router.navigate(['/admin/users']);
           }
-        })
+        } else {
+          this.alertService.error();
+          this.router.navigate(['/admin/users']);
+        }
+      })
       .catch(error => {
         console.log(error);
         this.alertService.serverError();
